@@ -1,35 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 
-import PersonService from '@src/services/person-service';
+import { store } from '@src/store';
 import PersonTable from '@components/person-table';
+import SelectedPerson from '@components/selected-person';
 
 import styles from './app.module.css';
 
 const App = () => {
-  const [peopleData, setPeopleData] = useState([]);
-
-  useEffect(() => {
-    const fetchPeopleData = async () => {
-      const personService = new PersonService();
-      const fetchedPeopleData = await personService
-        .getPeopleData();
-
-      setPeopleData(fetchedPeopleData);
-    };
-
-    fetchPeopleData();
-  }, []);
+  const globalState = useContext(store);
+  const { state } = globalState;
+  const { selectedPerson } = state;
 
   return (
-    <React.StrictMode>
-      <div className={styles.app}>
-        <div className={styles['page-wrapper']}>
-          <div className={styles.page}>
-            <PersonTable peopleList={peopleData} />
-          </div>
+    <div className={styles.app}>
+      <div className={styles['page-wrapper']}>
+        <div className={styles.page}>
+          <PersonTable />
+          { selectedPerson && <SelectedPerson /> }
         </div>
       </div>
-    </React.StrictMode>
+    </div>
   );
 };
 

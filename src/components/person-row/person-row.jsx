@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
+import { store } from '@src/store';
 import styles from './person-row.module.css';
 
 const PersonRow = ({ personData }) => {
+  const globalState = useContext(store);
+  const { dispatch } = globalState;
+
   const {
     id,
     firstName,
@@ -17,6 +21,15 @@ const PersonRow = ({ personData }) => {
       className={styles.row}
       tabIndex="0"
       role="button"
+      onClick={
+        () => {
+          dispatch({
+            type: 'PERSON.SELECT',
+            payload: personData,
+          });
+          globalState.selectPerson(personData);
+        }
+      }
     >
       <td>{ id }</td>
       <td>{ firstName }</td>
