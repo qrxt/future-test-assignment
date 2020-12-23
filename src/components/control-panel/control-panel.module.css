@@ -1,0 +1,13 @@
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.button {
+  width: 45%;
+}
+
+.button:not(:last-child) {
+  margin-right: 25px;
+}

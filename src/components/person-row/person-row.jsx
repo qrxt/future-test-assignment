@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
+import cn from 'classnames';
 import PropTypes from 'prop-types';
 
 import { store } from '@src/store';
 import styles from './person-row.module.css';
 
-const PersonRow = ({ personData }) => {
+const PersonRow = ({ personData, active }) => {
   const globalState = useContext(store);
   const { dispatch } = globalState;
 
@@ -18,7 +19,10 @@ const PersonRow = ({ personData }) => {
 
   return (
     <tr
-      className={styles.row}
+      className={cn(
+        styles.row,
+        { [styles.active]: active },
+      )}
       tabIndex="0"
       role="button"
       onClick={
@@ -39,6 +43,10 @@ const PersonRow = ({ personData }) => {
   );
 };
 
+PersonRow.defaultProps = {
+  active: false,
+};
+
 PersonRow.propTypes = {
   personData: PropTypes.shape({
     id: PropTypes.number,
@@ -47,6 +55,7 @@ PersonRow.propTypes = {
     email: PropTypes.string,
     phone: PropTypes.string,
   }).isRequired,
+  active: PropTypes.bool,
 };
 
 export default PersonRow;

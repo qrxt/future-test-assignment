@@ -8,6 +8,7 @@
 
 const initialState = {
   people: [],
+  dataFetchSize: 'small',
   selectedPerson: null,
 };
 
@@ -15,11 +16,24 @@ const reducer = (state, action) => {
   const typesMapping = {
     RESET: () => initialState,
 
+    // Fetch Size
+    'FETCHSIZE.SET': () => ({
+      ...state,
+      dataFetchSize: action.payload,
+    }),
+
+    // People Data Fetch
+    'PEOPLE.FETCH': () => ({
+      ...state,
+      people: [],
+    }),
+
     'PEOPLE.SUCCESS': () => ({
       ...state,
       people: action.payload,
     }),
 
+    // Person Select
     'PERSON.SELECT': () => ({
       ...state,
       selectedPerson: action.payload,

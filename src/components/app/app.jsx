@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 
 import { store } from '@src/store';
+import ControlPanel from '@components/control-panel';
 import PersonTable from '@components/person-table';
 import SelectedPerson from '@components/selected-person';
 
@@ -15,6 +16,7 @@ const App = () => {
     <div className={styles.app}>
       <div className={styles['page-wrapper']}>
         <div className={styles.page}>
+          <ControlPanel />
           <PersonTable />
           { selectedPerson && <SelectedPerson /> }
         </div>

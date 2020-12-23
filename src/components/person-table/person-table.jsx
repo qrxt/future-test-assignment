@@ -9,10 +9,14 @@ import { store } from '@src/store';
 import PersonService from '@src/services/person-service';
 import PersonRow from '@components/person-row';
 
-const fetchPeopleData = async (dispatch) => {
+const fetchPeopleData = async (dispatch, fetchSize) => {
   const personService = new PersonService();
-  const fetchedPeopleData = await personService
-    .getPeopleData();
+  const fetchSizeMapping = {
+    small: () => personService.getPeopleData('small'),
+    large: () => personService.getPeopleData('large'),
+  };
+  const fittingFetchFunction = fetchSizeMapping[fetchSize];
+  const fetchedPeopleData = await fittingFetchFunction();
 
   dispatch({
     type: 'PEOPLE.SUCCESS',
@@ -23,14 +27,24 @@ const fetchPeopleData = async (dispatch) => {
 const PersonTable = () => {
   const globalState = useContext(store);
   const { dispatch, state } = globalState;
-  const { people: peopleList } = state;
+  const {
+    people: peopleList,
+    dataFetchSize,
+    selectedPerson,
+  } = state;
 
   useEffect(() => {
-    fetchPeopleData(dispatch);
-  }, [dispatch]);
+    fetchPeopleData(dispatch, dataFetchSize);
+  }, [dispatch, dataFetchSize]);
 
   const renderPerson = (personData, key) => (
-    <PersonRow personData={personData} key={generateKey()} />
+    <PersonRow
+      personData={personData}
+      key={generateKey()}
+      active={
+        selectedPerson && personData.id === selectedPerson.id
+      }
+    />
   );
 
   return (
