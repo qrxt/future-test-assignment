@@ -27,7 +27,6 @@ const PersonRow = ({ personData }) => {
             type: 'PERSON.SELECT',
             payload: personData,
           });
-          globalState.selectPerson(personData);
         }
       }
     >
