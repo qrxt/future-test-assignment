@@ -1,5 +1,6 @@
 .app {
   height: 100%;
+  background: #F3F7FA;
 }
 
 .app-wrapper {
@@ -7,16 +8,6 @@
 }
 
 .page-wrapper {
-  display: grid;
-  justify-content: center;
-  align-items: center;
   width: 100%;
-  height: 100%;
   padding: 40px 0 0;
-  background: #F3F7FA;
-}
-
-.page {
-  display: grid;
-  justify-content: center;
 }

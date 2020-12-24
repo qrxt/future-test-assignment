@@ -28,10 +28,11 @@ const PersonTable = () => {
   const globalState = useContext(store);
   const { dispatch, state } = globalState;
   const {
-    people: peopleList,
+    people,
     dataFetchSize,
     selectedPerson,
   } = state;
+  const { peopleList, loading, failed } = people;
 
   useEffect(() => {
     fetchPeopleData(dispatch, dataFetchSize);
@@ -46,6 +47,14 @@ const PersonTable = () => {
       }
     />
   );
+
+  if (failed) {
+    return <p>task failed successfully</p>;
+  }
+
+  if (loading) {
+    return <p>loading</p>;
+  }
 
   return (
     <Table responsive bordered>
@@ -62,10 +71,6 @@ const PersonTable = () => {
       <tbody>{ peopleList.map(renderPerson) }</tbody>
     </Table>
   );
-};
-
-PersonTable.defaultProps = {
-  peopleList: [],
 };
 
 export default PersonTable;

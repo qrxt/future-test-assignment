@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import cn from 'classnames';
 
 import { store } from '@src/store';
 import ControlPanel from '@components/control-panel';
@@ -13,9 +14,14 @@ const App = () => {
   const { selectedPerson } = state;
 
   return (
-    <div className={styles.app}>
-      <div className={styles['page-wrapper']}>
-        <div className={styles.page}>
+    <div className={cn(styles.app)}>
+      <div
+        className={cn(
+          styles['page-wrapper'],
+          'container d-flex justify-content-center',
+        )}
+      >
+        <div className={cn(styles.page, 'col-8')}>
           <ControlPanel />
           <PersonTable />
           { selectedPerson && <SelectedPerson /> }

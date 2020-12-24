@@ -9,14 +9,11 @@ import { initialState, reducer } from '@src/reducer';
 const store = createContext(initialState);
 const { Provider } = store;
 
-// eslint-disable-next-line react/prop-types
-const StateProvider = ({ value, children }) => {
+const StateProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const providerValue = {
     state: state || initialState,
     dispatch,
-
-    ...value,
   };
 
   return (

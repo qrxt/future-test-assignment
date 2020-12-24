@@ -11,3 +11,13 @@
 .button:not(:last-child) {
   margin-right: 25px;
 }
+
+/* Filter */
+
+.filter {
+  margin-bottom: 20px;
+}
+
+.btn-find {
+  width: 20%;
+}

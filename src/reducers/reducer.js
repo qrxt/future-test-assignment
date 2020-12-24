@@ -1,12 +1,15 @@
+// import {
+//   // fetch people
+//   peopleSuccess,
+
+//   // pick person
+//   personSelect,
+// } from '@src/actions';
+
 const initialState = {
-  people: {
-    peopleList: [],
-    loading: true,
-    failed: false,
-  },
+  people: [],
   dataFetchSize: 'small',
   selectedPerson: null,
-  filter: null,
 };
 
 const reducer = (state, action) => {
@@ -22,45 +25,18 @@ const reducer = (state, action) => {
     // People Data Fetch
     'PEOPLE.FETCH': () => ({
       ...state,
-
-      people: {
-        peopleList: [],
-        loading: true,
-        failed: false,
-      },
-    }),
-
-    'PEOPLE.FAILED': () => ({
-      ...state,
-
-      people: {
-        peopleList: [],
-        loading: false,
-        failed: true,
-      },
+      people: [],
     }),
 
     'PEOPLE.SUCCESS': () => ({
       ...state,
-
-      people: {
-        peopleList: action.payload,
-        loading: false,
-        failed: false,
-      },
+      people: action.payload,
     }),
 
     // Person Select
     'PERSON.SELECT': () => ({
       ...state,
       selectedPerson: action.payload,
-    }),
-
-    // Filtration
-    'FILTER.SET': () => ({
-      ...state,
-
-      filter: action.payload,
     }),
   };
 
