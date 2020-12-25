@@ -55,6 +55,7 @@ const ControlPanel = () => {
           disabled={loading || dataFetchSize === 'small'}
           className={styles.button}
           onClick={() => onLessBtnClick(dispatch)}
+          title="32 строки, без задержки"
         >
           Меньше данных
         </Button>
@@ -62,6 +63,7 @@ const ControlPanel = () => {
           disabled={loading || dataFetchSize === 'large'}
           className={styles.button}
           onClick={() => onMoreBtnClick(dispatch)}
+          title="1000 строк, синтетическая задержка"
         >
           Больше данных
         </Button>
@@ -75,6 +77,7 @@ const ControlPanel = () => {
               type="text"
               disabled={loading}
               placeholder="Какие-нибудь данные пользователей"
+              title="Это могут быть данные из любого поля"
               onChange={(evt) => {
                 setFilter(evt.target.value);
               }}

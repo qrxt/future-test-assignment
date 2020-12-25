@@ -1,6 +1,7 @@
 import React, {
   useContext,
   useEffect,
+  useState,
 } from 'react';
 import Table from 'react-bootstrap/Table';
 import Pagination from 'react-bootstrap/Pagination';
@@ -8,6 +9,7 @@ import { generate as generateKey } from 'shortid';
 
 import { store } from '@src/store';
 import PersonService from '@src/services/person-service';
+import TablePlaceholder from '@components/table-placeholder';
 import PersonRow from '@components/person-row';
 import styles from './person-table.module.css';
 
@@ -49,6 +51,9 @@ const onPageBtnClick = (dispatch, pageNumber) => {
 
 const PersonTable = () => {
   const globalState = useContext(store);
+  const [sortOptions, setSortOptions] = useState({
+    id: null, firstName: null, lastName: null, email: null, phone: null,
+  });
   const { dispatch, state } = globalState;
   const {
     people,
@@ -63,16 +68,21 @@ const PersonTable = () => {
     page: currentPage,
   } = people;
 
+  useEffect(() => {
+    fetchPeopleData(dispatch, dataFetchSize);
+  }, [dispatch, dataFetchSize]);
+
   // Filtration Step
   const filteredPeopleList = peopleList
     .filter((personData) => filterPeople(filter, personData));
 
+  // Pagination Step
   const totalPages = Math.ceil(filteredPeopleList.length / ITEMS_PER_PAGE);
   const currentPageDataFrom = ITEMS_PER_PAGE * (currentPage - 1);
   const currentPageDataTo = currentPageDataFrom + ITEMS_PER_PAGE;
-  const currentPageData = filteredPeopleList.slice(currentPageDataFrom, currentPageDataTo);
+  const currentPageData = filteredPeopleList
+    .slice(currentPageDataFrom, currentPageDataTo);
 
-  // Pagination Step
   const paginationItems = Array.from(new Array(totalPages))
     .map((page, idx) => {
       const currentBtnPage = idx + 1;
@@ -89,12 +99,18 @@ const PersonTable = () => {
     });
 
   // Sort Step
-  /* Sort logic here */
+  // const ascendingComparator = (a, b) => a - b;
+  // const descendingComparator = (a, b) => b - a;
+  // const sorted = Object.entries(sortOptions)
+  //   .reduce((acc, [field, order]) => (
+  //     acc[field]
+  //       .slice()
+  //       .sort(order)
+  //   ), paginationItems);
 
-  useEffect(() => {
-    fetchPeopleData(dispatch, dataFetchSize);
-  }, [dispatch, dataFetchSize]);
+  // console.log(sortedItems)
 
+  // Render
   const renderPerson = (personData, key) => (
     <PersonRow
       personData={personData}
@@ -110,7 +126,7 @@ const PersonTable = () => {
   }
 
   if (loading) {
-    return <p>loading</p>;
+    return <TablePlaceholder rowsQuantity={50} />;
   }
 
   const displayedOnPage = filteredPeopleList.length < ITEMS_PER_PAGE
@@ -137,11 +153,36 @@ const PersonTable = () => {
       >
         <thead>
           <tr>
-            <th>id</th>
-            <th>firstName</th>
-            <th>lastName</th>
-            <th>email</th>
-            <th>phone</th>
+            <th
+              className={styles['table-head-field']}
+              // onClick={(evt) => onHeaderClick(evt.target.value)}
+            >
+              id
+            </th>
+            <th
+              className={styles['table-head-field']}
+              // onClick={(evt) => onHeaderClick(evt.target.value)}
+            >
+              firstName
+            </th>
+            <th
+              className={styles['table-head-field']}
+              // onClick={(evt) => onHeaderClick(evt.target.value)}
+            >
+              lastName
+            </th>
+            <th
+              className={styles['table-head-field']}
+              // onClick={(evt) => onHeaderClick(evt.target.value)}
+            >
+              email
+            </th>
+            <th
+              className={styles['table-head-field']}
+              // onClick={(evt) => onHeaderClick(evt.target.value)}
+            >
+              phone
+            </th>
           </tr>
         </thead>
 
