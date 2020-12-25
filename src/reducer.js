@@ -18,6 +18,8 @@ const reducer = (state, action) => {
     // Fetch Size
     'FETCHSIZE.SET': () => ({
       ...state,
+
+      filter: null,
       dataFetchSize: action.payload,
     }),
 
@@ -77,6 +79,12 @@ const reducer = (state, action) => {
     // Filtration
     'FILTER.SET': () => ({
       ...state,
+
+      people: {
+        ...state.people,
+
+        page: 1,
+      },
 
       filter: action.payload,
     }),

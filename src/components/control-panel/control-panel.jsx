@@ -73,6 +73,7 @@ const ControlPanel = () => {
             <Form.Label>Искать</Form.Label>
             <Form.Control
               type="text"
+              disabled={loading}
               placeholder="Какие-нибудь данные пользователей"
               onChange={(evt) => {
                 setFilter(evt.target.value);

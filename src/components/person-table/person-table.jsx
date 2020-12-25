@@ -62,6 +62,8 @@ const PersonTable = () => {
     failed,
     page: currentPage,
   } = people;
+
+  // Filtration Step
   const filteredPeopleList = peopleList
     .filter((personData) => filterPeople(filter, personData));
 
@@ -70,6 +72,7 @@ const PersonTable = () => {
   const currentPageDataTo = currentPageDataFrom + ITEMS_PER_PAGE;
   const currentPageData = filteredPeopleList.slice(currentPageDataFrom, currentPageDataTo);
 
+  // Pagination Step
   const paginationItems = Array.from(new Array(totalPages))
     .map((page, idx) => {
       const currentBtnPage = idx + 1;
@@ -84,6 +87,9 @@ const PersonTable = () => {
         </Pagination.Item>
       );
     });
+
+  // Sort Step
+  /* Sort logic here */
 
   useEffect(() => {
     fetchPeopleData(dispatch, dataFetchSize);
@@ -107,8 +113,23 @@ const PersonTable = () => {
     return <p>loading</p>;
   }
 
+  const displayedOnPage = filteredPeopleList.length < ITEMS_PER_PAGE
+    ? filteredPeopleList.length
+    : ITEMS_PER_PAGE;
+
   return (
     <>
+      <div className={styles.summary}>
+        <p className={styles['summary-row']}>
+          <span className={styles['summary-key']}>Всего записей:</span>
+          { peopleList.length }
+        </p>
+
+        <p className={styles['summary-row']}>
+          <span className={styles['summary-key']}>Отображено на странице:</span>
+          { displayedOnPage }
+        </p>
+      </div>
       <Table
         responsive
         bordered
@@ -129,11 +150,13 @@ const PersonTable = () => {
 
       {
         totalPages > 1 && (
-          <Pagination>
-            {
-              paginationItems
-            }
-          </Pagination>
+          <div className={styles['pagination-wrapper']}>
+            <Pagination className={styles.pagination}>
+              {
+                paginationItems
+              }
+            </Pagination>
+          </div>
         )
       }
     </>

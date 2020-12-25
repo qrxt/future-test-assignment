@@ -31,7 +31,7 @@ const App = () => {
           'container d-flex justify-content-center',
         )}
       >
-        <div className={cn(styles.page, 'col-8')}>
+        <div className={cn(styles.page, 'col-9')}>
           <ControlPanel />
           <PersonTable />
           { selectedPerson && <SelectedPerson /> }

@@ -1,3 +1,29 @@
 .table {
   margin-bottom: 40px;
 }
+
+/* Summary */
+
+.summary {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.summary-row {
+  margin: 0;
+}
+
+.summary-row:not(:last-child) {
+  margin-right: 15px;
+}
+
+.summary-key {
+  margin-right: 5px;
+}
+
+/* Pagination */
+
+.pagination-wrapper {
+  display: flex;
+  justify-content: center;
+}
