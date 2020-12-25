@@ -1,4 +1,7 @@
-import React, { useContext } from 'react';
+import React, {
+  useContext,
+  useState,
+} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
@@ -25,10 +28,21 @@ const onMoreBtnClick = (dispatch) => {
   });
 };
 
+const onFilterFormSubmit = (dispatch, payload, evt) => {
+  evt.preventDefault();
+
+  dispatch({
+    type: 'FILTER.SET',
+    payload,
+  });
+};
+
 const ControlPanel = () => {
   const globalState = useContext(store);
+  const [filter, setFilter] = useState(null);
   const { state, dispatch } = globalState;
-  const { dataFetchSize } = state;
+  const { dataFetchSize, people } = state;
+  const { loading } = people;
 
   return (
     <section>
@@ -38,14 +52,14 @@ const ControlPanel = () => {
 
       <div className={styles.buttons}>
         <Button
-          disabled={dataFetchSize === 'small'}
+          disabled={loading || dataFetchSize === 'small'}
           className={styles.button}
           onClick={() => onLessBtnClick(dispatch)}
         >
           Меньше данных
         </Button>
         <Button
-          disabled={dataFetchSize === 'large'}
+          disabled={loading || dataFetchSize === 'large'}
           className={styles.button}
           onClick={() => onMoreBtnClick(dispatch)}
         >
@@ -54,10 +68,16 @@ const ControlPanel = () => {
       </div>
 
       <div className={styles.filter}>
-        <Form>
+        <Form onSubmit={(evt) => onFilterFormSubmit(dispatch, filter, evt)}>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Искать</Form.Label>
-            <Form.Control type="text" placeholder="Какие-нибудь данные пользователей" />
+            <Form.Control
+              type="text"
+              placeholder="Какие-нибудь данные пользователей"
+              onChange={(evt) => {
+                setFilter(evt.target.value);
+              }}
+            />
             <Form.Text className="text-muted">
               Для фильтрации нажмите Найти еще раз
             </Form.Text>

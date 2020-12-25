@@ -1,0 +1,10 @@
+.username-caption {
+  padding-right: 5px;
+}
+
+.description {
+  padding: 5px;
+  margin-bottom: 20px;
+  min-height: 130px;
+  width: 50%;
+}

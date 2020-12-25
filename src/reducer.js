@@ -3,6 +3,8 @@ const initialState = {
     peopleList: [],
     loading: true,
     failed: false,
+
+    page: 1,
   },
   dataFetchSize: 'small',
   selectedPerson: null,
@@ -24,6 +26,8 @@ const reducer = (state, action) => {
       ...state,
 
       people: {
+        ...state.people,
+
         peopleList: [],
         loading: true,
         failed: false,
@@ -34,6 +38,8 @@ const reducer = (state, action) => {
       ...state,
 
       people: {
+        ...state.people,
+
         peopleList: [],
         loading: false,
         failed: true,
@@ -44,9 +50,21 @@ const reducer = (state, action) => {
       ...state,
 
       people: {
+        ...state.people,
+
         peopleList: action.payload,
         loading: false,
         failed: false,
+      },
+    }),
+
+    'PEOPLE.SET_PAGE': () => ({
+      ...state,
+
+      people: {
+        ...state.people,
+
+        page: action.payload,
       },
     }),
 

@@ -14,7 +14,10 @@ export default class PersonService {
   }
 
   async getResource(url) {
-    const response = await fetch(`${this.apiBase}${url}`);
+    const resource = `${this.apiBase}${url}`;
+    const response = await fetch(resource, {
+      timeout: 3000,
+    });
 
     if (!response.ok) {
       throw new Error(
@@ -28,7 +31,7 @@ export default class PersonService {
   getSmallDataPieceOptionsString() {
     return [
       ...this.optionsBase,
-      'rows=5', // must be 32
+      'rows=32', // must be 32
     ].join('&');
   }
 
