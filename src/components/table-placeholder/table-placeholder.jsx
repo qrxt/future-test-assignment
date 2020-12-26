@@ -6,7 +6,10 @@ import { generate as generateKey } from 'shortid';
 import styles from './table-placeholder.module.css';
 
 const LoadingSpinner = () => (
-  <div className={styles['spinner-wrapper']}>
+  <div
+    className={styles['spinner-wrapper']}
+    title="Загрузка..."
+  >
     <div className={styles.spinner}>
       <div>
         <div />
@@ -16,6 +19,9 @@ const LoadingSpinner = () => (
         <div />
         <div />
       </div>
+      <span className={styles['spinner-text']}>
+        Сейчас все будет...
+      </span>
     </div>
   </div>
 );

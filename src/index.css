@@ -23,6 +23,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #4a4a4a;
+  background-color: #007bff07;
 }
 
 img {

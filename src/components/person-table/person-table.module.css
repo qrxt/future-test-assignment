@@ -2,39 +2,6 @@
   margin-bottom: 40px;
 }
 
-/* Table Heading */
-
-.table-head-field {
-  position: relative;
-  cursor: pointer;
-}
-
-.table-head-field::before {
-  content: "";
-  position: absolute;
-  right: 7px;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  width: 16px;
-  height: 16px;
-  opacity: 0;
-}
-
-.heading-asc::before {
-  opacity: 1;
-
-  border-left: 16px solid transparent;
-  border-bottom: 16px solid #000000;
-}
-
-.heading-desc::before {
-  opacity: 1;
-
-  border-right: 16px solid transparent;
-  border-bottom: 16px solid #000000;
-}
-
 /* Summary */
 
 .summary {

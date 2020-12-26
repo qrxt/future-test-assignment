@@ -1,9 +1,7 @@
 import React, {
   useContext,
   useEffect,
-  useState,
 } from 'react';
-import cn from 'classnames';
 import Table from 'react-bootstrap/Table';
 import Pagination from 'react-bootstrap/Pagination';
 import { generate as generateKey } from 'shortid';
@@ -13,6 +11,7 @@ import { store } from '@src/store';
 import PersonService from '@src/services/person-service';
 import TablePlaceholder from '@components/table-placeholder';
 import PersonRow from '@components/person-row';
+import Heading from './heading';
 import styles from './person-table.module.css';
 
 const ITEMS_PER_PAGE = 50;
@@ -53,10 +52,6 @@ const onPageBtnClick = (dispatch, pageNumber) => {
 
 const PersonTable = () => {
   const globalState = useContext(store);
-  const [sortOptions, setSortOptions] = useState({
-    sortBy: null,
-    order: null,
-  });
 
   const { dispatch, state } = globalState;
   const {
@@ -64,6 +59,7 @@ const PersonTable = () => {
     dataFetchSize,
     selectedPerson,
     filter,
+    sortOptions,
   } = state;
   const {
     peopleList,
@@ -135,26 +131,20 @@ const PersonTable = () => {
     ? filteredPeopleList.length
     : ITEMS_PER_PAGE;
 
-  //
-
-  const headingItems = [
-    'id',
-    'firstName',
-    'lastName',
-    'email',
-    'phone',
-  ];
-
   return (
     <>
       <div className={styles.summary}>
         <p className={styles['summary-row']}>
-          <span className={styles['summary-key']}>Всего записей:</span>
+          <span className={styles['summary-key']}>
+            Всего записей:
+          </span>
           { filteredPeopleList.length }
         </p>
 
         <p className={styles['summary-row']}>
-          <span className={styles['summary-key']}>Отображено на странице:</span>
+          <span className={styles['summary-key']}>
+            Отображено на странице:
+          </span>
           { displayedOnPage }
         </p>
       </div>
@@ -163,37 +153,7 @@ const PersonTable = () => {
         bordered
         className={styles.table}
       >
-        <thead>
-          <tr>
-            {
-              headingItems
-                .map((heading) => {
-                  const isAsc = sortBy === heading && order === 'asc';
-                  const isDesc = sortBy === heading && order === 'desc';
-
-                  return (
-                    <th
-                      className={cn(
-                        styles['table-head-field'],
-                        { [styles['heading-asc']]: isAsc },
-                        { [styles['heading-desc']]: isDesc },
-                      )}
-                      key={generateKey()}
-                      onClick={() => {
-                        const nextOrder = order === 'asc' && heading === sortBy
-                          ? 'desc'
-                          : 'asc';
-
-                        setSortOptions({ sortBy: heading, order: nextOrder });
-                      }}
-                    >
-                      { heading }
-                    </th>
-                  );
-                })
-            }
-          </tr>
-        </thead>
+        <Heading />
 
         <tbody>{ currentPageData.map(renderPerson) }</tbody>
       </Table>

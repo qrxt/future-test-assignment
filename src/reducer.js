@@ -9,6 +9,7 @@ const initialState = {
   dataFetchSize: 'small',
   selectedPerson: null,
   filter: null,
+  sortOptions: { sortBy: null, order: null },
 };
 
 const reducer = (state, action) => {
@@ -88,6 +89,13 @@ const reducer = (state, action) => {
       },
 
       filter: action.payload,
+    }),
+
+    // Sort
+    'SORT.SET': () => ({
+      ...state,
+
+      sortOptions: action.payload,
     }),
   };
 
