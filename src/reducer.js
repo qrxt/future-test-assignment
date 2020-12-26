@@ -95,6 +95,11 @@ const reducer = (state, action) => {
     'SORT.SET': () => ({
       ...state,
 
+      people: {
+        ...state.people,
+
+        page: 1,
+      },
       sortOptions: action.payload,
     }),
   };
