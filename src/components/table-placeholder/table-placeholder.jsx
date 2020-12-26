@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Table from 'react-bootstrap/Table';
+import { generate as generateKey } from 'shortid';
 
 import styles from './table-placeholder.module.css';
 
@@ -23,7 +24,7 @@ const TablePlaceholder = ({ rowsQuantity }) => {
   const rows = Array
     .from(new Array(rowsQuantity))
     .map((item) => (
-      <tr>
+      <tr key={generateKey()}>
         <td className={styles.cell} />
         <td className={styles.cell} />
         <td className={styles.cell} />

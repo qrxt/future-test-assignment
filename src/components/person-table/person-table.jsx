@@ -3,10 +3,12 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import cn from 'classnames';
 import Table from 'react-bootstrap/Table';
 import Pagination from 'react-bootstrap/Pagination';
 import { generate as generateKey } from 'shortid';
 
+import compareStrings from '@src/utils/compareStrings';
 import { store } from '@src/store';
 import PersonService from '@src/services/person-service';
 import TablePlaceholder from '@components/table-placeholder';
@@ -52,8 +54,10 @@ const onPageBtnClick = (dispatch, pageNumber) => {
 const PersonTable = () => {
   const globalState = useContext(store);
   const [sortOptions, setSortOptions] = useState({
-    id: null, firstName: null, lastName: null, email: null, phone: null,
+    sortBy: null,
+    order: null,
   });
+
   const { dispatch, state } = globalState;
   const {
     people,
@@ -76,11 +80,16 @@ const PersonTable = () => {
   const filteredPeopleList = peopleList
     .filter((personData) => filterPeople(filter, personData));
 
+  // Sort Step
+  const { sortBy, order } = sortOptions;
+  const sortedPeopleList = filteredPeopleList
+    .slice();
+
   // Pagination Step
-  const totalPages = Math.ceil(filteredPeopleList.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(sortedPeopleList.length / ITEMS_PER_PAGE);
   const currentPageDataFrom = ITEMS_PER_PAGE * (currentPage - 1);
   const currentPageDataTo = currentPageDataFrom + ITEMS_PER_PAGE;
-  const currentPageData = filteredPeopleList
+  const currentPageData = sortedPeopleList
     .slice(currentPageDataFrom, currentPageDataTo);
 
   const paginationItems = Array.from(new Array(totalPages))
@@ -97,18 +106,6 @@ const PersonTable = () => {
         </Pagination.Item>
       );
     });
-
-  // Sort Step
-  // const ascendingComparator = (a, b) => a - b;
-  // const descendingComparator = (a, b) => b - a;
-  // const sorted = Object.entries(sortOptions)
-  //   .reduce((acc, [field, order]) => (
-  //     acc[field]
-  //       .slice()
-  //       .sort(order)
-  //   ), paginationItems);
-
-  // console.log(sortedItems)
 
   // Render
   const renderPerson = (personData, key) => (
@@ -133,12 +130,22 @@ const PersonTable = () => {
     ? filteredPeopleList.length
     : ITEMS_PER_PAGE;
 
+  //
+
+  const headingItems = [
+    'id',
+    'firstName',
+    'lastName',
+    'email',
+    'phone',
+  ];
+
   return (
     <>
       <div className={styles.summary}>
         <p className={styles['summary-row']}>
           <span className={styles['summary-key']}>Всего записей:</span>
-          { peopleList.length }
+          { filteredPeopleList.length }
         </p>
 
         <p className={styles['summary-row']}>
@@ -153,36 +160,36 @@ const PersonTable = () => {
       >
         <thead>
           <tr>
-            <th
-              className={styles['table-head-field']}
-              // onClick={(evt) => onHeaderClick(evt.target.value)}
-            >
-              id
-            </th>
-            <th
-              className={styles['table-head-field']}
-              // onClick={(evt) => onHeaderClick(evt.target.value)}
-            >
-              firstName
-            </th>
-            <th
-              className={styles['table-head-field']}
-              // onClick={(evt) => onHeaderClick(evt.target.value)}
-            >
-              lastName
-            </th>
-            <th
-              className={styles['table-head-field']}
-              // onClick={(evt) => onHeaderClick(evt.target.value)}
-            >
-              email
-            </th>
-            <th
-              className={styles['table-head-field']}
-              // onClick={(evt) => onHeaderClick(evt.target.value)}
-            >
-              phone
-            </th>
+            {
+              headingItems
+                .map((heading) => {
+                  const isAsc = sortBy === heading && order === 'asc';
+                  const isDesc = sortBy === heading && order === 'desc';
+
+                  return (
+                    <th
+                      className={cn(
+                        styles['table-head-field'],
+                        { [styles['heading-asc']]: isAsc },
+                        { [styles['heading-desc']]: isDesc },
+                      )}
+                      key={generateKey()}
+                      onClick={() => {
+                        const orderByPrevious = sortBy === heading
+                          ? 'asc'
+                          : 'desc';
+                        const nextOrder = orderByPrevious === 'asc'
+                          ? 'desc'
+                          : 'asc';
+
+                        setSortOptions({ sortBy: heading, order: nextOrder });
+                      }}
+                    >
+                      { heading }
+                    </th>
+                  );
+                })
+            }
           </tr>
         </thead>
 

@@ -2,8 +2,18 @@
   margin-bottom: 40px;
 }
 
+/* Table Heading */
+
 .table-head-field {
   cursor: pointer;
+}
+
+.heading-asc {
+  background-color: green; /* temp */
+}
+
+.heading-desc {
+  background-color: red; /* temp */
 }
 
 /* Summary */

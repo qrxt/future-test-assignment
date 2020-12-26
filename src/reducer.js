@@ -21,6 +21,7 @@ const reducer = (state, action) => {
 
       filter: null,
       dataFetchSize: action.payload,
+      selectedPerson: null,
     }),
 
     // People Data Fetch

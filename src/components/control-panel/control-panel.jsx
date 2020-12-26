@@ -90,6 +90,7 @@ const ControlPanel = () => {
           <Button
             variant="primary"
             type="submit"
+            disabled={loading}
             className={styles.['btn-find']}
           >
             Найти
