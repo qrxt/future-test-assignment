@@ -83,7 +83,12 @@ const PersonTable = () => {
   // Sort Step
   const { sortBy, order } = sortOptions;
   const sortedPeopleList = filteredPeopleList
-    .slice();
+    .slice()
+    .sort((curr, next) => (
+      order && order === 'asc'
+        ? compareStrings(curr[sortBy], next[sortBy])
+        : compareStrings(next[sortBy], curr[sortBy])
+    ));
 
   // Pagination Step
   const totalPages = Math.ceil(sortedPeopleList.length / ITEMS_PER_PAGE);
@@ -175,10 +180,7 @@ const PersonTable = () => {
                       )}
                       key={generateKey()}
                       onClick={() => {
-                        const orderByPrevious = sortBy === heading
-                          ? 'asc'
-                          : 'desc';
-                        const nextOrder = orderByPrevious === 'asc'
+                        const nextOrder = order === 'asc' && heading === sortBy
                           ? 'desc'
                           : 'asc';
 
