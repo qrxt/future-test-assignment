@@ -40,6 +40,8 @@ const renderHeadingCell = (heading, dispatch, sortOptions) => {
           payload: nextSortOptions,
         });
       }}
+      tabIndex="0"
+      role="button"
     >
       { heading }
     </th>

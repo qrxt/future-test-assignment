@@ -1,0 +1,19 @@
+.form {
+  margin-bottom: 20px;
+}
+
+.inner {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.field:not(:last-child):not(:nth-child(3n)) {
+  margin-right: 65px;
+}
+
+/* Inputs */
+
+.input-id::-webkit-outer-spin-button,
+.input-id::-webkit-inner-spin-button {
+  appearance: none;
+}

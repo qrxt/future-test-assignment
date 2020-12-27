@@ -2,12 +2,14 @@ import React, {
   useContext,
   useEffect,
 } from 'react';
+import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import Pagination from 'react-bootstrap/Pagination';
 import { generate as generateKey } from 'shortid';
 
-import compareStrings from '@src/utils/compareStrings';
 import { store } from '@src/store';
+import compareStrings from '@src/utils/compareStrings';
+import FormAddRecord from '@components/form-add-record';
 import PersonService from '@src/services/person-service';
 import TablePlaceholder from '@components/table-placeholder';
 import PersonRow from '@components/person-row';
@@ -50,6 +52,12 @@ const onPageBtnClick = (dispatch, pageNumber) => {
   });
 };
 
+const onShowFormBtnClick = (dispatch) => {
+  dispatch({
+    type: 'ADD_NEW.FORM_SHOW',
+  });
+};
+
 const PersonTable = () => {
   const globalState = useContext(store);
 
@@ -60,6 +68,7 @@ const PersonTable = () => {
     selectedPerson,
     filter,
     sortOptions,
+    addNew,
   } = state;
   const {
     peopleList,
@@ -67,6 +76,7 @@ const PersonTable = () => {
     failed,
     page: currentPage,
   } = people;
+  const { displayForm } = addNew;
 
   useEffect(() => {
     fetchPeopleData(dispatch, dataFetchSize);
@@ -148,6 +158,15 @@ const PersonTable = () => {
           { displayedOnPage }
         </p>
       </div>
+
+      <Button
+        className={styles['btn-add']}
+        onClick={() => { onShowFormBtnClick(dispatch); }}
+      >
+        { displayForm ? 'Убрать форму' : 'Добавить запись' }
+      </Button>
+      { displayForm && <FormAddRecord /> }
+
       <Table
         responsive
         bordered

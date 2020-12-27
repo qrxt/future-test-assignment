@@ -10,6 +10,11 @@ const initialState = {
   selectedPerson: null,
   filter: null,
   sortOptions: { sortBy: null, order: null },
+
+  addNew: {
+    displayForm: false,
+    recordData: null,
+  },
 };
 
 const reducer = (state, action) => {
@@ -101,6 +106,34 @@ const reducer = (state, action) => {
         page: 1,
       },
       sortOptions: action.payload,
+    }),
+
+    // Add New Form
+    'ADD_NEW.FORM_SHOW': () => ({
+      ...state,
+
+      addNew: {
+        ...state.addNew,
+
+        displayForm: !state.addNew.displayForm,
+      },
+    }),
+
+    'ADD_NEW.ADD': () => ({
+      ...state,
+
+      addNew: {
+        ...state.addNew,
+
+        displayForm: false,
+      },
+
+      people: {
+        ...state.people,
+
+        peopleList: state.people.peopleList
+          .concat(action.payload),
+      },
     }),
   };
 

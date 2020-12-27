@@ -2,6 +2,12 @@
   margin-bottom: 40px;
 }
 
+/* Add New Record */
+
+.btn-add {
+  margin-bottom: 20px;
+}
+
 /* Summary */
 
 .summary {
