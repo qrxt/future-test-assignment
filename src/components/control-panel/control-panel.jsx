@@ -42,7 +42,7 @@ const ControlPanel = () => {
   const [filter, setFilter] = useState(null);
   const { state, dispatch } = globalState;
   const { dataFetchSize, people } = state;
-  const { loading } = people;
+  const { loading, failed } = people;
 
   return (
     <section>
@@ -52,13 +52,14 @@ const ControlPanel = () => {
 
       <div className={styles.buttons}>
         <Button
-          disabled={loading || dataFetchSize === 'small'}
+          disabled={loading || (dataFetchSize === 'small' && !failed)}
           className={styles.button}
           onClick={() => onLessBtnClick(dispatch)}
           title="32 строки, без задержки"
         >
           Меньше данных
         </Button>
+
         <Button
           disabled={loading || dataFetchSize === 'large'}
           className={styles.button}
@@ -75,7 +76,7 @@ const ControlPanel = () => {
             <Form.Label>Искать</Form.Label>
             <Form.Control
               type="text"
-              disabled={loading}
+              disabled={loading || failed}
               placeholder="Какие-нибудь данные пользователей"
               title="Это могут быть данные из любого поля"
               onChange={(evt) => {
@@ -90,7 +91,7 @@ const ControlPanel = () => {
           <Button
             variant="primary"
             type="submit"
-            disabled={loading}
+            disabled={loading || failed}
             className={styles.['btn-find']}
           >
             Найти

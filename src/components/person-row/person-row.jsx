@@ -49,7 +49,7 @@ PersonRow.defaultProps = {
 
 PersonRow.propTypes = {
   personData: PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     firstName: PropTypes.string,
     lastName: PropTypes.string,
     email: PropTypes.string,

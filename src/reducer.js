@@ -131,8 +131,10 @@ const reducer = (state, action) => {
       people: {
         ...state.people,
 
-        peopleList: state.people.peopleList
-          .concat(action.payload),
+        peopleList: [
+          action.payload,
+          ...state.people.peopleList,
+        ],
       },
     }),
   };

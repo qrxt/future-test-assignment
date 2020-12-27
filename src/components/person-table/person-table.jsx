@@ -11,6 +11,7 @@ import { store } from '@src/store';
 import compareStrings from '@src/utils/compareStrings';
 import FormAddRecord from '@components/form-add-record';
 import PersonService from '@src/services/person-service';
+import ErrorIndicator from '@components/error-indicator';
 import TablePlaceholder from '@components/table-placeholder';
 import PersonRow from '@components/person-row';
 import Heading from './heading';
@@ -25,12 +26,19 @@ const fetchPeopleData = async (dispatch, fetchSize) => {
     large: () => personService.getPeopleData('large'),
   };
   const fittingFetchFunction = fetchSizeMapping[fetchSize];
-  const fetchedPeopleData = await fittingFetchFunction();
 
-  dispatch({
-    type: 'PEOPLE.SUCCESS',
-    payload: fetchedPeopleData,
-  });
+  try {
+    const fetchedPeopleData = await fittingFetchFunction();
+
+    dispatch({
+      type: 'PEOPLE.SUCCESS',
+      payload: fetchedPeopleData,
+    });
+  } catch (err) {
+    dispatch({
+      type: 'PEOPLE.FAILED',
+    });
+  }
 };
 
 const filterPeople = (filter, personData) => {
@@ -80,7 +88,7 @@ const PersonTable = () => {
 
   useEffect(() => {
     fetchPeopleData(dispatch, dataFetchSize);
-  }, [dispatch, dataFetchSize]);
+  }, [dispatch, dataFetchSize, failed]);
 
   // Filtration Step
   const filteredPeopleList = peopleList
@@ -130,7 +138,7 @@ const PersonTable = () => {
   );
 
   if (failed) {
-    return <p>task failed successfully</p>;
+    return <ErrorIndicator />;
   }
 
   if (loading) {
